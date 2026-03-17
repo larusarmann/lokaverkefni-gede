@@ -79,3 +79,5 @@ crashlytics-build.properties
 [Bb]uilds/
 [Ll]ogs/
 UserSettings/
+.DS_Store
+**/.DS_Store
