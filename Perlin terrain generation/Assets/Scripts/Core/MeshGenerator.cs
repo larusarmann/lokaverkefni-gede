@@ -1,6 +1,52 @@
 using UnityEngine;
 
-public class MeshGenerator
+public static class MeshGenerator
 {
-    
+    public static Mesh GenerateTerrainMesh(float[,] heightMap, float heightMultiplier)
+    {
+        int width = heightMap.GetLength(0);
+        int height = heightMap.GetLength(1);
+
+        Vector3[] vertices = new Vector3[width * height];
+        int[] triangles = new int[(width - 1) * (height - 1) * 6];
+        Vector2[] uvs = new Vector2[width * height];
+
+        int vertexIndex = 0;
+        int triangleIndex = 0;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float currentHeight = heightMap[x, y] * heightMultiplier;
+
+                vertices[vertexIndex] = new Vector3(x, currentHeight, y);
+                uvs[vertexIndex] = new Vector2((float)x / width, (float)y / height);
+
+                if (x < width - 1 && y < height - 1)
+                {
+                    triangles[triangleIndex] = vertexIndex;
+                    triangles[triangleIndex + 1] = vertexIndex + width + 1;
+                    triangles[triangleIndex + 2] = vertexIndex + width;
+
+                    triangles[triangleIndex + 3] = vertexIndex;
+                    triangles[triangleIndex + 4] = vertexIndex + 1;
+                    triangles[triangleIndex + 5] = vertexIndex + width + 1;
+
+                    triangleIndex += 6;
+                }
+
+                vertexIndex++;
+            }
+        }
+
+        Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.uv = uvs;
+        mesh.RecalculateNormals();
+
+        return mesh;
+    }
 }
