@@ -15,7 +15,11 @@ public class TerrainChunk
         meshObject = new GameObject("Terrain Chunk " + coord.x + "," + coord.y);
         meshObject.transform.position = new Vector3(worldX, 0, worldZ);
         meshObject.transform.parent = parent;
+        
+        // Sets the layer so the Player can collide with it
+        meshObject.layer = LayerMask.NameToLayer("Default"); 
 
+        // We only declare these variables ONCE
         MeshRenderer meshRenderer = meshObject.AddComponent<MeshRenderer>();
         MeshFilter meshFilter = meshObject.AddComponent<MeshFilter>();
         MeshCollider meshCollider = meshObject.AddComponent<MeshCollider>();
@@ -25,6 +29,9 @@ public class TerrainChunk
 
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
+
+        // Force physics to update immediately so the player doesn't fall through
+        Physics.SyncTransforms();
 
         if (material != null)
         {
