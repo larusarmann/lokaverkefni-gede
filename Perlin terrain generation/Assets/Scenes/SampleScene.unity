@@ -419,13 +419,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EndlessTerrain
   player: {fileID: 455442796}
   terrainMaterial: {fileID: 2100000, guid: 1cbea3f43bd9044d7aa988e9d00f5123, type: 2}
-  heightMultiplier: 15
-  viewDistance: 5
+  heightMultiplier: 75
+  viewDistance: 8
   noiseSettings:
     width: 50
-    height: 50
-    scale: 20
-    octaves: 4
+    height: 75
+    scale: 250
+    octaves: 5
     persistence: 0.5
     lacunarity: 2
     seed: 0
@@ -567,7 +567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.z
@@ -604,6 +604,14 @@ PrefabInstance:
     - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Name
       value: PlayerArmature
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: MoveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: SprintSpeed
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: GroundLayers.m_Bits
