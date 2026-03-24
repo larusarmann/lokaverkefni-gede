@@ -10,6 +10,7 @@ public static class MeshGenerator
         Vector3[] vertices = new Vector3[width * height];
         int[] triangles = new int[(width - 1) * (height - 1) * 6];
         Vector2[] uvs = new Vector2[width * height];
+        Color[] colors = new Color[width * height]; // This stores the color for each point
 
         int vertexIndex = 0;
         int triangleIndex = 0;
@@ -18,10 +19,22 @@ public static class MeshGenerator
         {
             for (int x = 0; x < width; x++)
             {
-                float currentHeight = heightMap[x, y] * heightMultiplier;
+                float rawHeight = heightMap[x, y];
+                float currentHeight = rawHeight * heightMultiplier;
 
                 vertices[vertexIndex] = new Vector3(x, currentHeight, y);
                 uvs[vertexIndex] = new Vector2((float)x / width, (float)y / height);
+
+                // --- Color logic based on height (0 to 1) ---
+                if (rawHeight < 0.2f) {
+                    colors[vertexIndex] = new Color(0.1f, 0.3f, 0.6f); // Deep Water Blue
+                } else if (rawHeight < 0.4f) {
+                    colors[vertexIndex] = new Color(0.9f, 0.8f, 0.6f); // Sand Yellow
+                } else if (rawHeight < 0.7f) {
+                    colors[vertexIndex] = new Color(0.2f, 0.6f, 0.2f); // Grass Green
+                } else {
+                    colors[vertexIndex] = Color.white; // Snow Cap
+                }
 
                 if (x < width - 1 && y < height - 1)
                 {
@@ -41,10 +54,10 @@ public static class MeshGenerator
         }
 
         Mesh mesh = new Mesh();
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
+        mesh.colors = colors; // Apply the colors to the mesh
         mesh.RecalculateNormals();
 
         return mesh;
