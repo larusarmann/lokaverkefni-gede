@@ -23,17 +23,16 @@ public class TerrainChunk
         float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(settings, worldX, worldZ);
         Mesh mesh = MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier);
 
+        // Generate the texture!
+        Texture2D texture = TextureGenerator.TextureFromHeightMap(noiseMap);
+
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
 
-        if (material != null)
-        {
-            meshRenderer.material = material;
-        }
-        else
-        {
-            meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        }
+        // Apply the material and our new texture
+        Material chunkMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        chunkMaterial.mainTexture = texture; // This makes the colors actually show up!
+        meshRenderer.material = chunkMaterial;
     }
 
     public void SetVisible(bool visible)
