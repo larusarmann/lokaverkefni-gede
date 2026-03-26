@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndlessTerrain
   player: {fileID: 455442796}
-  terrainMaterial: {fileID: 2100000, guid: 1cbea3f43bd9044d7aa988e9d00f5123, type: 2}
+  terrainMaterial: {fileID: 2100000, guid: a1866a131713cc743b8048c68ead4d93, type: 2}
   heightMultiplier: 75
   viewDistance: 8
   noiseSettings:
