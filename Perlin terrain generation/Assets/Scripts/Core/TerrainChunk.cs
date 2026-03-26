@@ -23,16 +23,11 @@ public class TerrainChunk
         float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(settings, worldX, worldZ);
         Mesh mesh = MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier);
 
-        // Generate the texture!
-        Texture2D texture = TextureGenerator.TextureFromHeightMap(noiseMap);
-
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
 
-        // Apply the material and our new texture
-        Material chunkMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        chunkMaterial.mainTexture = texture; // This makes the colors actually show up!
-        meshRenderer.material = chunkMaterial;
+        // Apply the Triplanar material we passed in from EndlessTerrain!
+        meshRenderer.material = material;
     }
 
     public void SetVisible(bool visible)
