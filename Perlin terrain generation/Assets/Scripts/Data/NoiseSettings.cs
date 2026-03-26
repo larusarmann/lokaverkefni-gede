@@ -12,7 +12,10 @@ public class NoiseSettings
     [Range(0, 1)]
     public float persistence = 0.5f;     // How much each layer's height decreases
     public float lacunarity = 2f;        // How much each layer's detail increases
-    public int seed;                     // Random seed for the world
+    
+    [Header("Seed Settings")]
+    public bool useRandomSeed = true;    // Check this in the Inspector for random terrain!
+    public int seed;                     // The specific seed used (if useRandomSeed is false)
     // --------------------------------------
 
     public float offsetX = 0f;

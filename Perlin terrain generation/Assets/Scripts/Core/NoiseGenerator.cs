@@ -6,7 +6,8 @@ public static class NoiseGenerator
     {
         float[,] noiseMap = new float[settings.width, settings.height];
 
-        // Use the seed to create random offsets for each octave
+        // Notice the randomizer is gone from here! 
+        // We just use the seed that was set at the start of the game.
         System.Random prng = new System.Random(settings.seed);
         Vector2[] octaveOffsets = new Vector2[settings.octaves];
         for (int i = 0; i < settings.octaves; i++) {
@@ -17,7 +18,6 @@ public static class NoiseGenerator
 
         if (settings.scale <= 0) settings.scale = 0.0001f;
 
-        // Keep track of the max possible height to normalize values later
         float maxPossibleHeight = 0;
         float amplitude = 1;
 
@@ -36,11 +36,9 @@ public static class NoiseGenerator
 
                 for (int i = 0; i < settings.octaves; i++)
                 {
-                    // Calculate sample coordinates using world position + octave offsets
                     float sampleX = (x + worldX + octaveOffsets[i].x) / settings.scale * frequency;
                     float sampleY = (y + worldZ + octaveOffsets[i].y) / settings.scale * frequency;
 
-                    // Range -1 to 1 allows octaves to subtract height for more variety
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
 
@@ -48,7 +46,6 @@ public static class NoiseGenerator
                     frequency *= settings.lacunarity;
                 }
 
-                // Normalize the value back to a 0-1 range
                 float normalizedHeight = (noiseHeight + 1) / (2f * maxPossibleHeight / 1.75f);
                 noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, 1);
             }

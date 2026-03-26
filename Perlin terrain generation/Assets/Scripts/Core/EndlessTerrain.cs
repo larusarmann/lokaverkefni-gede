@@ -16,6 +16,13 @@ public class EndlessTerrain : MonoBehaviour
 
     private void Start()
     {
+        // Add this check! It rolls a random seed once for the whole world.
+        if (noiseSettings.useRandomSeed)
+        {
+            noiseSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        }
+
+        // Then generate the chunks using that single shared seed
         UpdateChunks();
     }
 
