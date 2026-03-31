@@ -482,6 +482,28 @@ MonoBehaviour:
     seed: 0
     offsetX: 0
     offsetY: 0
+  treeSettings:
+    prefabs:
+    - {fileID: 191266, guid: c44bd9bdc114d4a60932c0087d9d1732, type: 3}
+    - {fileID: 192044, guid: 19682540d8a014522a319b1cf788aee2, type: 3}
+    - {fileID: 137650, guid: 826b6a0b570e8460990010fa615b5a2a, type: 3}
+    density: 5
+    minHeight: 0.3
+    maxHeight: 1
+    minScale: 1
+    maxScale: 5
+  stoneSettings:
+    prefabs:
+    - {fileID: 100000, guid: 0a1cade8f3785a5498483caf954be128, type: 3}
+    - {fileID: 100000, guid: 8988c881874f4cb4db33f58b6a8e7416, type: 3}
+    - {fileID: 100000, guid: e08d894d1a4dca746a9673007d5c706d, type: 3}
+    - {fileID: 100000, guid: 043111edfa1d129478e041d0c2a324c8, type: 3}
+    - {fileID: 100000, guid: 1e2ef0cc5c65717479848f40d793d3ee, type: 3}
+    density: 10
+    minHeight: 0.3
+    maxHeight: 1
+    minScale: 1
+    maxScale: 7
 --- !u!4 &720644367
 Transform:
   m_ObjectHideFlags: 0

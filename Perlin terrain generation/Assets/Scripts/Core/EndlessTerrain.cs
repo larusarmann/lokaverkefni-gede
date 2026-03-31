@@ -11,18 +11,20 @@ public class EndlessTerrain : MonoBehaviour
 
     public NoiseSettings noiseSettings = new NoiseSettings();
 
+    [Header("Object Spawning")]
+    public AssetSettings treeSettings;
+    public AssetSettings stoneSettings;
+
     private Dictionary<Vector2, TerrainChunk> chunks = new Dictionary<Vector2, TerrainChunk>();
     private Vector2 playerOldChunkCoord;
 
     private void Start()
     {
-        // Add this check! It rolls a random seed once for the whole world.
         if (noiseSettings.useRandomSeed)
         {
             noiseSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         }
 
-        // Then generate the chunks using that single shared seed
         UpdateChunks();
     }
 
@@ -65,7 +67,9 @@ public class EndlessTerrain : MonoBehaviour
                         noiseSettings,
                         heightMultiplier,
                         transform,
-                        terrainMaterial
+                        terrainMaterial,
+                        treeSettings,   // Passed to chunk
+                        stoneSettings   // Passed to chunk
                     );
 
                     chunks.Add(viewedChunkCoord, newChunk);
