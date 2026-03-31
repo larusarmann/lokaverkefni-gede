@@ -9,11 +9,11 @@ public class AssetSettings
     
     [Header("Height Constraints")]
     [Range(0, 1)]
-    public float minHeight = 0.3f;  // Set this to ~0.3 to stay out of water
+    public float minHeight = 0.3f; 
     [Range(0, 1)]
     public float maxHeight = 1.0f;
 
-    [Header("Size")]
-    public float minScale = 1f;
-    public float maxScale = 5f;     // For "bigga" trees
+    [Header("Size Settings")]
+    public float minScale = 0.8f;
+    public float maxScale = 2.5f; // Set this to ~2 or 3 to avoid the "goofy" look
 }

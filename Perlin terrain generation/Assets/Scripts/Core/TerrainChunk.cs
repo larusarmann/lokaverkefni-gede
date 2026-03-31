@@ -24,19 +24,20 @@ public class TerrainChunk
         Mesh mesh = MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier);
 
         meshFilter.mesh = mesh;
-        meshCollider.sharedMesh = mesh; // This allows the Raycast to "hit" the terrain
+        meshCollider.sharedMesh = mesh;
         meshRenderer.material = material;
 
-        // Spawn trees and stones after the mesh and collider are ready
-        SpawnObjects(treeSettings, noiseMap, settings, heightMultiplier, worldX, worldZ);
-        SpawnObjects(stoneSettings, noiseMap, settings, heightMultiplier, worldX, worldZ);
+        // FIX: Added different offsets (0 and 500) so they don't spawn in the same spot
+        SpawnObjects(treeSettings, noiseMap, settings, heightMultiplier, worldX, worldZ, 0);
+        SpawnObjects(stoneSettings, noiseMap, settings, heightMultiplier, worldX, worldZ, 500);
     }
 
-    void SpawnObjects(AssetSettings assetSet, float[,] noiseMap, NoiseSettings settings, float heightMultiplier, float worldX, float worldZ)
+    void SpawnObjects(AssetSettings assetSet, float[,] noiseMap, NoiseSettings settings, float heightMultiplier, float worldX, float worldZ, int seedOffset)
     {
         if (assetSet.prefabs == null || assetSet.prefabs.Length == 0) return;
 
-        System.Random prng = new System.Random((int)(worldX + worldZ * 1000));
+        // FIX: The seed now includes the offset so trees and stones pick different spots
+        System.Random prng = new System.Random((int)(worldX + worldZ * 1000) + seedOffset);
 
         for (int i = 0; i < assetSet.density; i++)
         {
@@ -44,7 +45,6 @@ public class TerrainChunk
             int y = prng.Next(0, settings.height);
             float heightValue = noiseMap[x, y];
 
-            // This line ensures trees ONLY spawn above the water/beach level
             if (heightValue >= assetSet.minHeight && heightValue <= assetSet.maxHeight)
             {
                 float posX = worldX + x;
@@ -53,16 +53,15 @@ public class TerrainChunk
 
                 GameObject prefab = assetSet.prefabs[prng.Next(0, assetSet.prefabs.Length)];
                 
-                // Initial spawn height
+                // Spawn high and raycast down
                 Vector3 spawnPos = new Vector3(posX, posY + 20f, posZ);
                 GameObject obj = Object.Instantiate(prefab, spawnPos, Quaternion.Euler(0, prng.Next(0, 360), 0));
                 obj.transform.parent = meshObject.transform;
 
-                // Apply size
+                // IMPROVED SCALE: Now uses the min/max from AssetSettings
                 float randomScale = (float)(prng.NextDouble() * (assetSet.maxScale - assetSet.minScale) + assetSet.minScale);
                 obj.transform.localScale = Vector3.one * randomScale;
 
-                // "Shoot" the tree down so it sits perfectly on the sloped terrain
                 if (Physics.Raycast(spawnPos, Vector3.down, out RaycastHit hit, 50f))
                 {
                     obj.transform.position = hit.point;
